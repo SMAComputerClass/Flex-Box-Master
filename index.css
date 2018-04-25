@@ -1,0 +1,28 @@
+
+/* Use # because board is an individual named element */
+      #board {
+        display: flex;
+        /* width: 900px;
+        height: 450px; */
+        flex-direction: row;
+        flex-wrap:wrap;
+        justify-content:flex-start;
+
+        }
+
+/* Use the . because square is a class */
+      .square {
+        /* height: 100px;
+        width: 100px; */
+        box-sizing: border-box;
+        border: 2px solid black;
+        font-size: 4em;
+        display: flex;
+        background-color: white;
+        justify-content: center;
+        align-items: center;
+        }
+
+      /* .square:hover {
+        cursor: pointer;
+      } */

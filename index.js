@@ -2,7 +2,16 @@
 'use strict';   // Enable "strict mode".  Note: This *must* be the first statement in the script.
                 // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
-            var startButton = document.getElementById("startButton");
+      // var SPACE_BAR_KEY = 32;
+      var ARROW_LEFT = 37;
+      var ARROW_UP = 38;
+      var ARROW_RIGHT = 39;
+      var ARROW_DOWN = 40;
+      var currentSquare = 0;
+      var squares;
+      var boardSize;
+
+      var startButton = document.getElementById("startButton");
 
       startButton.addEventListener('click', function(e)
       {
@@ -13,7 +22,7 @@
       {
           // get the board
           var myBoard = document.getElementById("board");
-          var boardSize = document.getElementById("boardSize").value;
+          boardSize = Number(document.getElementById("boardSize").value);
           var squareSize = document.getElementById("squareSize").value;
 
           myBoard.innerHTML = "";
@@ -37,13 +46,15 @@
 
           console.log(myBoard.innerHTML);
           // get squares data
-          var squares = document.querySelectorAll('.square');
+          squares = document.querySelectorAll('.square');
 
           for (i=0; i< squares.length; i++)
           {
             squares[i].style.width = squareSize + "px";
             squares[i].style.height = squareSize + "px";
           }
+
+        squares[currentSquare].style.backgroundColor = "blue";
 
       }
 
@@ -52,9 +63,6 @@
       {
           // increase square number by 1
           e.target.innerHTML++;
-
-          // get squares data
-          var squares = document.querySelectorAll('.square');
 
           var current = e.target.id;  // store my square #
           var i=0;                    // loop counter
@@ -75,7 +83,7 @@
 
           if (iAmHighest == true) // only change colors if I am highest
           {
-            squares[current].style.backgroundColor = "green";
+            squares[current].style.backgroundColor = "coral";
 
             for (i=0; i< squares.length; i++)
             {
@@ -86,3 +94,72 @@
             }
           }
       });  // end of the board eventlistener
+
+// ----------------------------------------------------
+
+      document.onkeydown = checkKey;
+
+      function checkKey(evt) {
+        // this line of code was needed due to old browsers, possibly firefox, Nathan had an issue
+        evt = evt || window.event;
+
+        //console.log ("Keycode pressed from event: " + evt.keyCode);
+
+        var key = evt.keyCode;
+
+
+        switch (key) {
+          case ARROW_RIGHT:
+
+          if (((currentSquare+1) % boardSize) == 0)
+          {
+            console.log("Cant move through right wall");
+            return;
+          }
+          else
+          {
+            currentSquare++;
+            squares[currentSquare].style.backgroundColor = "blue";
+          }
+
+
+            // console.log("**************** Right key is pressed **********");
+            // console.log("**************** Right key is pressed **********");
+            break;
+          case ARROW_LEFT:
+
+          if ((currentSquare % boardSize) == 0)
+          {
+            console.log("Cant move through left wall");
+            return;
+          }
+          else
+          {
+            currentSquare--;
+            squares[currentSquare].style.backgroundColor = "purple";
+          }
+
+            // console.log("**************** Left key is pressed **********");
+            //console.log("**************** Left key is pressed **********");
+            break;
+          case ARROW_DOWN:
+
+            currentSquare = currentSquare + boardSize;
+            console.log ("boardSize is " + boardSize + " current square is " + currentSquare);
+
+            squares[currentSquare].style.backgroundColor = "ivory";
+
+            // console.log("**************** Down key is pressed **********");
+            // console.log("**************** Down key is pressed **********");
+            break;
+          case ARROW_UP:
+
+            // console.log("**************** Up key is pressed **********");
+            // console.log("**************** Up key is pressed **********");
+            break;
+          default:
+
+            // do nothing
+        } // end switch
+
+      }
